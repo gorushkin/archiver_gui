@@ -39,5 +39,6 @@
       }
     ]
   },
-  "plugins": ["prettier", "import"]
+  "plugins": ["prettier", "import"],
+  "ignorePatterns": ["dist/"]
 }
