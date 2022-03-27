@@ -1,0 +1,43 @@
+{
+  "extends": ["react-app", "prettier"],
+  "rules": {
+    "indent": [
+      "warn",
+      2,
+      {
+        "ignoredNodes": ["TemplateLiteral"]
+      }
+    ],
+    "jsx-a11y/anchor-is-valid": "off",
+    "jsx-quotes": ["warn", "prefer-double"],
+    "quotes": ["warn", "single"],
+    "import/no-unresolved": "off",
+    "no-unused-vars": "off",
+    "import/named": "warn",
+    "import/namespace": "warn",
+    "import/no-named-as-default": "off",
+    "import/export": "warn",
+    "import/order": [
+      "warn",
+      {
+        "alphabetize": { "order": "asc" },
+        "groups": ["builtin", "external", "internal", "parent", ["index", "sibling"], "object"],
+        "newlines-between": "always",
+        "pathGroups": [
+          {
+            "pattern": "@prd-crossmip/**",
+            "group": "external",
+            "position": "after"
+          },
+          {
+            "pattern": ".*/**/*.scss",
+            "group": "sibling",
+            "position": "after"
+          }
+        ],
+        "pathGroupsExcludedImportTypes": []
+      }
+    ]
+  },
+  "plugins": ["prettier", "import"]
+}
