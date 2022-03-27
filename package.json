@@ -2,6 +2,7 @@
   "name": "archiver_gui",
   "version": "0.1.0",
   "private": true,
+  "main": "dist/index.js",
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.3",
     "@testing-library/react": "^12.1.4",
@@ -14,11 +15,16 @@
     "react-dom": "^17.0.2",
     "react-scripts": "5.0.0",
     "typescript": "^4.6.3",
+    "uninstall": "0.0.0",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
+    "dev:front": "export BROWSER=none && react-scripts start",
+    "dev:back": "tsc --watch -p electron/tsconfig.json",
+    "dev:app": "wait-on tcp:3000 && nodemon --exec electron ./dist",
+    "dev": "NODE_MODE=dev concurrently \"npm run dev:front\" \"npm run dev:back\" \"npm run dev:app\"",
+    "build:front": "react-scripts build",
+    "build:back": "tsc -p electron/tsconfig.json",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
@@ -39,5 +45,12 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "concurrently": "^7.0.0",
+    "electron": "^17.2.0",
+    "electron-reload": "^2.0.0-alpha.1",
+    "nodemon": "^2.0.15",
+    "wait-on": "^6.0.1"
   }
 }
