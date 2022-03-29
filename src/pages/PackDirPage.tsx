@@ -1,3 +1,3 @@
-import { TablePage, TableTypes } from '../Components/TablePage/TablePage';
+import { TablePage, TableTypes } from '../components/TablePage/TablePage';
 
 export const PackDirPage = () => <TablePage type={TableTypes.packDir} />;
