@@ -22,7 +22,7 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "dev:front": "export BROWSER=none && react-scripts start",
+    "dev:front": "export BROWSER=none && react-app-rewired start",
     "dev:back": "tsc --watch -p electron/tsconfig.json",
     "dev:app": "wait-on tcp:3000 && nodemon --exec electron ./dist",
     "dev": "NODE_MODE=dev concurrently \"npm run dev:front\" \"npm run dev:back\" \"npm run dev:app\"",
@@ -64,6 +64,8 @@
     "eslint-plugin-react-hooks": "^4.3.0",
     "nodemon": "^2.0.15",
     "prettier": "^2.6.1",
+    "react-app-rewired": "^2.2.1",
+    "sass": "^1.49.9",
     "wait-on": "^6.0.1"
   }
 }
