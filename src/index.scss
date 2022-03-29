@@ -108,5 +108,33 @@ ol {
 
 .main__row {
   display: flex;
-  // justify-content: space-between;
+}
+
+.main__button {
+  &--left {
+
+  }
+
+  &--center {
+    margin-left: auto !important;
+    margin-right: 10px !important;
+  }
+
+  &--left {
+  }
+}
+
+.main__btns-wrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.main__btns-item {
+  &:not(:last-of-type) {
+    margin-bottom: 15px;
+  }
+
+  button {
+    width: 100%;
+  }
 }

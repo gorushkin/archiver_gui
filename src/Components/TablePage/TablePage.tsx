@@ -2,7 +2,7 @@ import { Button } from '@mui/material';
 import { ipcRenderer } from 'electron';
 import { FC, useContext } from 'react';
 
-import { StateContext } from '../../AppContext';
+import { Pages, StateContext } from '../../AppContext';
 import { Buttons, Table, TableRow } from '../Table/Table';
 
 export enum TableTypes {
@@ -18,8 +18,13 @@ interface TablePageProps {
 const TablePage: FC<TablePageProps> = ({ type }) => {
   const { state, setState } = useContext(StateContext);
 
+  const onBackClickhandler = () => {
+    if (setState) {
+      setState((state) => ({ ...state, page: Pages.startPage }));
+    }
+  };
+
   const browseHandler = async (type: TableTypes, name: string) => {
-    console.log('type: ', type);
     const result = await ipcRenderer.invoke('btn_click', type);
     if (setState) {
       setState((state) => ({ ...state, [name]: result }));
@@ -81,15 +86,15 @@ const TablePage: FC<TablePageProps> = ({ type }) => {
       <Table items={tableRows} type={type} />
       <div className="main__row">
         <Button
-          className="main__button main__button--submit"
+          className="main__button main__button--left main__button--submit"
           variant="contained"
           color="error"
-          onClick={onResetClickhandler}
+          onClick={onBackClickhandler}
         >
           Back
         </Button>
         <Button
-          className="main__button main__button--submit"
+          className="main__button main__button--center main__button--submit"
           variant="contained"
           color="error"
           onClick={onResetClickhandler}
@@ -98,7 +103,7 @@ const TablePage: FC<TablePageProps> = ({ type }) => {
         </Button>
         <Button
           onClick={onSubmitClickhandler}
-          className="main__button main__button--submit"
+          className="main__button main__button--right main__button--submit"
           variant="contained"
         >
           Pack

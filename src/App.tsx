@@ -4,7 +4,7 @@ import { StateContext } from './AppContext';
 import { renderPage } from './pages';
 
 const App = () => {
-  const { state, setState } = useContext(StateContext);
+  const { state } = useContext(StateContext);
 
   const renderComponent = (type: string | undefined) => {
     if (!type) return null;
