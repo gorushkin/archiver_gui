@@ -5,7 +5,7 @@ export enum Pages {
   packFilePage = 'packFilePage',
 }
 
-interface IState {
+export interface IState {
   input: string;
   output: string;
   name: string;

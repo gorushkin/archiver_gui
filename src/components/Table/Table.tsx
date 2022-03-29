@@ -1,7 +1,7 @@
 import { Button } from '@mui/material';
 import { FC, useRef } from 'react';
 
-import { TableTypes } from '../TablePage/TablePage';
+import { TableTypes } from '../TablePage/useTablePage';
 
 export enum Buttons {
   dir = 'dir',

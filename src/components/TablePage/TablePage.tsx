@@ -1,92 +1,16 @@
 import { Button } from '@mui/material';
-import { ipcRenderer } from 'electron';
-import { FC, useContext } from 'react';
+import { FC } from 'react';
 
-import { Pages, StateContext } from '../../AppContext';
-import { Buttons, Table, TableRow } from '../Table/Table';
+import { Table } from '../Table/Table';
 
-export enum TableTypes {
-  packFile = 'packFile',
-  packDir = 'packDir',
-  unpack = 'unpack',
-}
-
+import { useTablePage, TableTypes } from './useTablePage';
 interface TablePageProps {
   type: TableTypes;
 }
 
 const TablePage: FC<TablePageProps> = ({ type }) => {
-  const { state, setState } = useContext(StateContext);
-
-  const onBackClickhandler = () => {
-    if (setState) {
-      setState((state) => ({ ...state, page: Pages.startPage }));
-    }
-  };
-
-  const browseHandler = async (type: TableTypes, name: string) => {
-    const result = await ipcRenderer.invoke('btn_click', type);
-    if (setState) {
-      setState((state) => ({ ...state, [name]: result }));
-    }
-  };
-
-  const changeHandler = (name: string) => {
-    if (setState) {
-      setState((state) => ({ ...state, name }));
-    }
-  };
-
-  const isFromReady = !!state?.input && !!state.output && !!state.name;
-
-  const onSubmitClickhandler = async () => {
-    if (!isFromReady) {
-      console.log('form is not ready');
-      return;
-    }
-    const result = await ipcRenderer.send('run', {
-      input: state.input,
-      output: state.output,
-      name: state.name,
-    });
-
-    console.log('result: ', result);
-  };
-
-  const onResetClickhandler = () => {
-    if (setState) {
-      setState((state) => ({ ...state, input: '', output: '', name: '' }));
-    }
-  };
-
-  const tableRows: TableRow[] = [
-    {
-      name: 'input',
-      caption: 'Input',
-      value: state?.input,
-      disabled: true,
-      clickHandler: browseHandler,
-      changeHandler: null,
-      button: type === 'packDir' ? Buttons.dir : Buttons.file,
-    },
-    {
-      name: 'output',
-      caption: 'Output',
-      value: state?.output,
-      disabled: true,
-      clickHandler: browseHandler,
-      changeHandler: null,
-      button: Buttons.dir,
-    },
-    {
-      name: 'name',
-      caption: 'Name',
-      value: state?.name,
-      disabled: false,
-      clickHandler: null,
-      changeHandler: changeHandler,
-    },
-  ];
+  const { tableRows, onBackClickhandler, onResetClickhandler, onSubmitClickhandler } =
+    useTablePage(type);
 
   return (
     <div className="main__page">
