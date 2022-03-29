@@ -39,11 +39,18 @@ const TablePage: FC<TablePageProps> = ({ type }) => {
 
   const isFromReady = !!state?.input && !!state.output && !!state.name;
 
-  const onSubmitClickhandler = () => {
+  const onSubmitClickhandler = async () => {
     if (!isFromReady) {
       console.log('form is not ready');
       return;
     }
+    const result = await ipcRenderer.send('run', {
+      input: state.input,
+      output: state.output,
+      name: state.name,
+    });
+
+    console.log('result: ', result);
   };
 
   const onResetClickhandler = () => {

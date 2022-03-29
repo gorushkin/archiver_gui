@@ -2,7 +2,7 @@ import { useState, createContext, FC, ReactNode } from 'react';
 
 export enum Pages {
   startPage = 'startPage',
-  secondPage = 'packFilePage',
+  packFilePage = 'packFilePage',
 }
 
 interface IState {
@@ -25,10 +25,10 @@ export const StateContext = createContext<GlobalState>({ state: null, setState: 
 
 const StateProvider: FC<ProviderProps> = ({ children }) => {
   const [state, setState] = useState<IState>({
-    input: '',
-    output: '',
-    name: '',
-    page: Pages.startPage,
+    input: '/home/gorushkin/Downloads/20220208_082255.jpg',
+    output: '/home/gorushkin/Desktop',
+    name: 'archive.zip',
+    page: Pages.packFilePage,
   });
 
   return <StateContext.Provider value={{ state, setState }}>{children}</StateContext.Provider>;

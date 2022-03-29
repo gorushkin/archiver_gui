@@ -1,6 +1,6 @@
-import path from 'path';
-
 import { app, BrowserWindow, ipcMain, dialog } from 'electron';
+
+import { Archiver, ArchiverError } from './archiver';
 
 let window: Electron.BrowserWindow;
 
@@ -55,4 +55,29 @@ const typeMapping: TypeMapping = {
 ipcMain.handle('btn_click', async (_, type: string) => {
   if (!typeMapping[type]) throw new Error('There is no action with $type} name');
   return await typeMapping[type]();
+});
+
+type Options = {
+  input: string;
+  output: string;
+  name: string;
+};
+
+ipcMain.on('run', async (_, { input, output, name }: Options) => {
+  try {
+    const result = await Archiver.pack(input, output, { archiveName: name });
+  } catch (error) {
+    console.log('error: ', error);
+    if (error instanceof ArchiverError) {
+      const message = error.message;
+      dialog.showMessageBox({
+        title: 'OOps, there is an error',
+        buttons: ['Dismiss'],
+        type: 'warning',
+        message,
+      });
+    } else {
+      throw error;
+    }
+  }
 });

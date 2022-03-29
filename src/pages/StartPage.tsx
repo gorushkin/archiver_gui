@@ -10,7 +10,7 @@ const StartPage = () => {
   const clickHandler = async (type: string) => {
     const input = await ipcRenderer.invoke('btn_click', type);
     if (setState) {
-      setState((state) => ({ ...state, input, page: Pages.secondPage }));
+      setState((state) => ({ ...state, input, page: Pages.packFilePage }));
     }
   };
 
