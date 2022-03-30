@@ -2,7 +2,7 @@ import { useState, createContext, FC, ReactNode } from 'react';
 
 export enum Pages {
   startPage = 'startPage',
-  tablepage = 'tablepage',
+  tablePage = 'tablePage',
 }
 
 export enum Modes {
@@ -16,7 +16,7 @@ export interface IState {
   output: string;
   name: string;
   page: Pages;
-  mode: Modes | null;
+  mode: Modes;
 }
 
 interface GlobalState {
@@ -28,20 +28,12 @@ interface ProviderProps {
   children: ReactNode;
 }
 
-// const testInitState: IState = {
-//   input: '/home/gorushkin/Downloads/20220208_082255.jpg',
-//   output: '/home/gorushkin/Desktop',
-//   name: 'archive.zip',
-//   page: Pages.tablepage,
-//   mode: Modes.packFile
-// };
-
 const initState: IState = {
   input: '',
   output: '',
   name: '',
-  page: Pages.startPage,
-  mode: null,
+  page: Pages.tablePage,
+  mode: Modes.packFile,
 };
 
 export const StateContext = createContext<GlobalState>({ state: null, setState: null });

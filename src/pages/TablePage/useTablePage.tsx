@@ -20,8 +20,6 @@ export const useTablePage = () => {
 
   const { input, output, mode, name } = state;
 
-  if (!mode) throw new Error('Theere is something wrong with your mode');
-
   const onBackClickhandler = () => {
     if (setState) {
       setState((state) => ({ ...state, page: Pages.startPage }));

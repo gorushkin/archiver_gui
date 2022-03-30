@@ -1,13 +1,11 @@
 import { Pages } from '../AppContext';
 
-import { StartPage } from './StartPage';
 import { TablePage } from './TablePage/TablePage';
 
 type TypeMapping = Record<string, Function>;
 
 const pageMapping: TypeMapping = {
-  [Pages.startPage]: StartPage,
-  [Pages.tablepage]: TablePage,
+  [Pages.tablePage]: TablePage,
 };
 
 export const renderPage = (name: string) => {

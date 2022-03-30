@@ -52,8 +52,14 @@ ol {
   padding: 0;
 }
 
+.main__buttons-wrapper {
+  margin-bottom: 35px;
+}
+
 .main__btns-list {
   align-self: center;
+  display: flex;
+  justify-content: space-between;
 }
 
 .main__table {
@@ -108,14 +114,15 @@ ol {
 
 .main__row {
   display: flex;
+  justify-content: space-between;
 }
 
-.main__button {
-  &--center {
-    margin-left: auto !important;
-    margin-right: 10px !important;
-  }
-}
+// .main__button {
+//   &--center {
+//     margin-left: auto !important;
+//     margin-right: 10px !important;
+//   }
+// }
 
 .main__btns-wrapper {
   display: flex;
@@ -123,11 +130,10 @@ ol {
 }
 
 .main__btns-item {
-  &:not(:last-of-type) {
-    margin-bottom: 15px;
-  }
+}
 
-  button {
-    width: 100%;
+.btn {
+  &--active {
+    outline: 2px solid red !important;
   }
 }
