@@ -16,7 +16,11 @@ export interface IChangeHandler {
 export const useTablePage = () => {
   const { state, setState } = useContext(StateContext);
 
-  if (!state?.mode) throw new Error('Theere is something wrong with your mode');
+  if (!state) throw new Error('Theere is something wrong with your state');
+
+  const { input, output, mode, name } = state;
+
+  if (!mode) throw new Error('Theere is something wrong with your mode');
 
   const onBackClickhandler = () => {
     if (setState) {
@@ -37,7 +41,7 @@ export const useTablePage = () => {
     }
   };
 
-  const isFromReady = !!state?.input && !!state.output && !!state.name;
+  const isFromReady = !!input && !!output && !!name;
 
   const onSubmitClickhandler = async () => {
     if (!isFromReady) {
@@ -45,9 +49,10 @@ export const useTablePage = () => {
       return;
     }
     const result = await ipcRenderer.send('run', {
-      input: state.input,
-      output: state.output,
-      name: state.name,
+      input,
+      output,
+      name,
+      mode,
     });
 
     console.log('result: ', result);
@@ -59,7 +64,7 @@ export const useTablePage = () => {
     }
   };
 
-  const tableRows = getTableRows(state, state.mode, browseHandler, changeHandler);
+  const tableRows = getTableRows(state, mode, browseHandler, changeHandler);
 
   return { tableRows, onBackClickhandler, onResetClickhandler, onSubmitClickhandler };
 };

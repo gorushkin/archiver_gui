@@ -1,8 +1,13 @@
 import { app, BrowserWindow, ipcMain, dialog } from 'electron';
 
 import { Archiver, ArchiverError } from './archiver';
-
 let window: Electron.BrowserWindow;
+
+export enum Modes {
+  packFile = 'packFile',
+  packDir = 'packDir',
+  unpack = 'unpack',
+}
 
 const isDev = process.env['NODE_MODE'] === 'dev';
 
@@ -61,11 +66,28 @@ type Options = {
   input: string;
   output: string;
   name: string;
+  mode: Modes;
 };
 
-ipcMain.on('run', async (_, { input, output, name }: Options) => {
+interface IArchverMethod {
+  (input: string, output: string, name: string): Promise<string>;
+}
+
+const pack: IArchverMethod = (input, output, name) => Archiver.pack(input, output, { name });
+const unpack: IArchverMethod = (input, output, name) => Archiver.unpack(input, output, { name });
+
+type AppModeMapping = Record<string, Function>;
+
+const appModeMapping: AppModeMapping = {
+  [Modes.packDir]: pack,
+  [Modes.packFile]: pack,
+  [Modes.unpack]: unpack,
+};
+
+ipcMain.on('run', async (_, { input, output, name, mode }: Options) => {
   try {
-    const result = await Archiver.pack(input, output, { archiveName: name });
+    const result = await appModeMapping[mode](input, output, name);
+    return result;
   } catch (error) {
     console.log('error: ', error);
     if (error instanceof ArchiverError) {

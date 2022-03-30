@@ -50,7 +50,7 @@ class Archiver {
     await fs.promises.rm(folder, { recursive: true });
   }
 
-  static async unpack(input, output, { password, directory }) {
+  static async unpack(input, output, { password, name: directory }) {
     await this.validateInputPath(input);
 
     const { name } = path.parse(input);
@@ -69,14 +69,14 @@ class Archiver {
     await fs.promises.rename(input, output);
   }
 
-  static async pack(input, output, { archiveName, password, level = 2 }) {
+  static async pack(input, output, { name, password, level = 2 }) {
     await this.validateInputPath(input);
-    await this.validateOutputPath(path.join(output, archiveName));
+    await this.validateOutputPath(path.join(output, name));
 
     const targetType = await this.getTagetType(input);
 
     const tempFolder = await this.createTempFolder(output);
-    const tempArchName = path.join(tempFolder, archiveName);
+    const tempArchName = path.join(tempFolder, name);
     const tempFilename = path.basename(input);
     const firstArchiveName = await packTool(
       input,
@@ -87,11 +87,11 @@ class Archiver {
     );
 
     if (level === 2) {
-      const finalArchName = path.join(output, archiveName);
+      const finalArchName = path.join(output, name);
       const finalFilename = path.basename(finalArchName);
       await packTool(firstArchiveName, finalArchName, password, finalFilename, 'file');
     } else {
-      const finalFilename = path.join(output, archiveName);
+      const finalFilename = path.join(output, name);
       await this.moveFile(firstArchiveName, finalFilename);
     }
 
