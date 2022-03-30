@@ -1,9 +1,7 @@
-import { Button } from '@mui/material';
 import { ipcRenderer } from 'electron';
-import { FC, useContext } from 'react';
+import { useContext } from 'react';
 
 import { Pages, StateContext } from '../../AppContext';
-import { Table } from '../Table/Table';
 
 import { getTableRows } from './helpers';
 

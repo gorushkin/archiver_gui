@@ -3,6 +3,8 @@ import { useState, createContext, FC, ReactNode } from 'react';
 export enum Pages {
   startPage = 'startPage',
   packFilePage = 'packFilePage',
+  packDirPage = 'packDirPage',
+  unpackPage = 'unpackPage'
 }
 
 export interface IState {

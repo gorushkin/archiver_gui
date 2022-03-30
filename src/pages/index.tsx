@@ -1,11 +1,17 @@
+import { Pages } from '../AppContext';
+
+import { PackDirPage } from './PackDirPage';
 import { PackFilePage } from './PackFilePage';
 import { StartPage } from './StartPage';
+import { UnpackPage } from './UnpackPage';
 
 type TypeMapping = Record<string, Function>;
 
 const pageMapping: TypeMapping = {
-  startPage: StartPage,
-  packFilePage: PackFilePage,
+  [Pages.startPage]: StartPage,
+  [Pages.packFilePage]: PackFilePage,
+  [Pages.packDirPage]: PackDirPage,
+  [Pages.unpackPage]: UnpackPage,
 };
 
 export const renderPage = (name: string) => {
