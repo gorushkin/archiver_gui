@@ -1,18 +1,18 @@
-import { IState } from '../../AppContext';
-import { Buttons, TableRow } from '../Table/Table';
+import { IState, Modes } from '../../AppContext';
+import { Buttons, TableRow } from '../../components/Table/Table';
 
-import { IBrowseHandler, IChangeHandler, TableTypes } from './useTablePage';
+import { IBrowseHandler, IChangeHandler } from './useTablePage';
 
 interface IGetTablesRows {
   (
     state: IState | null,
-    type: TableTypes,
+    mode: Modes,
     browseHandler: IBrowseHandler,
     changeHandler: IChangeHandler
   ): TableRow[];
 }
 
-export const getTableRows: IGetTablesRows = (state, type, browseHandler, changeHandler) => [
+export const getTableRows: IGetTablesRows = (state, mode, browseHandler, changeHandler) => [
   {
     name: 'input',
     caption: 'Input',
@@ -20,7 +20,7 @@ export const getTableRows: IGetTablesRows = (state, type, browseHandler, changeH
     disabled: true,
     clickHandler: browseHandler,
     changeHandler: null,
-    button: type === 'packDir' ? Buttons.dir : Buttons.file,
+    button: mode === 'packDir' ? Buttons.dir : Buttons.file,
   },
   {
     name: 'output',

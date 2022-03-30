@@ -1,8 +1,6 @@
 import { Button } from '@mui/material';
 import { FC, useRef } from 'react';
 
-import { TableTypes } from '../TablePage/useTablePage';
-
 export enum Buttons {
   dir = 'dir',
   file = 'file',
@@ -20,10 +18,9 @@ export interface TableRow {
 
 interface TableProps {
   items: TableRow[];
-  type: TableTypes;
 }
 
-const Table: FC<TableProps> = ({ items, type }) => {
+const Table: FC<TableProps> = ({ items }) => {
   const input = useRef<HTMLInputElement>(null);
 
   const onFocusHandler = () => {

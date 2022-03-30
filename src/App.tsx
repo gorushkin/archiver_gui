@@ -6,9 +6,11 @@ import { renderPage } from './pages';
 const App = () => {
   const { state } = useContext(StateContext);
 
-  const renderComponent = (type: string | undefined) => {
-    if (!type) return null;
+  if (!state?.page) {
+    throw new Error('There is spmething wrong with your state');
+  }
 
+  const renderComponent = (type: string) => {
     const Component = renderPage(type);
 
     return <Component />;
@@ -19,7 +21,7 @@ const App = () => {
       <div className="wrapper">
         <div className="main__inner">
           <h1 className="main__title">Archiver</h1>
-          {renderComponent(state?.page)}
+          {renderComponent(state.page)}
         </div>
       </div>
     </div>

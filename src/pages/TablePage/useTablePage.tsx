@@ -1,30 +1,22 @@
 import { ipcRenderer } from 'electron';
 import { useContext } from 'react';
 
-import { Pages, StateContext } from '../../AppContext';
+import { Pages, StateContext, Modes } from '../../AppContext';
 
 import { getTableRows } from './helpers';
 
-export enum TableTypes {
-  packFile = 'packFile',
-  packDir = 'packDir',
-  unpack = 'unpack',
-}
-
 export interface IBrowseHandler {
-  (type: TableTypes, name: string): void;
+  (type: Modes, name: string): void;
 }
 
 export interface IChangeHandler {
   (name: string): void;
 }
 
-interface UseTablePageProps {
-  type: TableTypes;
-}
-
-export const useTablePage = (type: TableTypes) => {
+export const useTablePage = () => {
   const { state, setState } = useContext(StateContext);
+
+  if (!state?.mode) throw new Error('Theere is something wrong with your mode');
 
   const onBackClickhandler = () => {
     if (setState) {
@@ -67,7 +59,7 @@ export const useTablePage = (type: TableTypes) => {
     }
   };
 
-  const tableRows = getTableRows(state, type, browseHandler, changeHandler);
+  const tableRows = getTableRows(state, state.mode, browseHandler, changeHandler);
 
   return { tableRows, onBackClickhandler, onResetClickhandler, onSubmitClickhandler };
 };

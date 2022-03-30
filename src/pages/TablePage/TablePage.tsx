@@ -1,20 +1,16 @@
 import { Button } from '@mui/material';
-import { FC } from 'react';
 
-import { Table } from '../Table/Table';
+import { Table } from '../../components/Table/Table';
 
-import { useTablePage, TableTypes } from './useTablePage';
-interface TablePageProps {
-  type: TableTypes;
-}
+import { useTablePage } from './useTablePage';
 
-const TablePage: FC<TablePageProps> = ({ type }) => {
+const TablePage = () => {
   const { tableRows, onBackClickhandler, onResetClickhandler, onSubmitClickhandler } =
-    useTablePage(type);
+    useTablePage();
 
   return (
     <div className="main__page">
-      <Table items={tableRows} type={type} />
+      <Table items={tableRows} />
       <div className="main__row">
         <Button
           className="main__button main__button--left main__button--submit"
