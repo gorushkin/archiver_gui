@@ -2,7 +2,7 @@ import { Pages } from '../AppContext';
 
 import { TablePage } from './TablePage/TablePage';
 
-type TypeMapping = Record<string, Function>;
+type TypeMapping = Record<string, () => JSX.Element>;
 
 const pageMapping: TypeMapping = {
   [Pages.tablePage]: TablePage,
