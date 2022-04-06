@@ -9,7 +9,32 @@ export enum Modes {
   unpack = 'unpack',
 }
 
-const isDev = process.env['NODE_MODE'] === 'dev';
+export enum Operations {
+  file = 'file',
+  dir = 'dir',
+}
+
+enum selectTargetTypes {
+  openFile = 'openFile',
+  openDirectory = 'openDirectory',
+}
+
+interface IOptions {
+  input: string;
+  output: string;
+  name: string;
+  mode: Modes;
+}
+
+type TypeMapping = Record<Operations, Function>;
+
+interface IArchverMethod {
+  (input: string, output: string, name: string): Promise<string>;
+}
+
+type AppModeMapping = Record<Modes, Function>;
+
+// const isDev = process.env['NODE_MODE'] === 'dev';
 
 const createWindow = () => {
   window = new BrowserWindow({
@@ -26,7 +51,6 @@ const createWindow = () => {
   window.maximize();
 };
 
-// app.on('ready', createWindow);
 app.on('ready', createWindow);
 
 app.on('window-all-closed', () => {
@@ -34,11 +58,6 @@ app.on('window-all-closed', () => {
     app.quit(); // exit
   }
 });
-
-enum selectTargetTypes {
-  openFile = 'openFile',
-  openDirectory = 'openDirectory',
-}
 
 const selectTarget = async (action: selectTargetTypes): Promise<string | undefined> => {
   const target = await dialog.showOpenDialog(window, {
@@ -50,33 +69,18 @@ const selectTarget = async (action: selectTargetTypes): Promise<string | undefin
   return targetPath;
 };
 
-type TypeMapping = Record<string, Function>;
-
 const typeMapping: TypeMapping = {
   file: selectTarget.bind(null, selectTargetTypes.openFile),
   dir: selectTarget.bind(null, selectTargetTypes.openDirectory),
 };
 
-ipcMain.handle('btn_click', async (_, type: string) => {
+ipcMain.handle('btn_click', async (_, type: Operations) => {
   if (!typeMapping[type]) throw new Error('There is no action with $type} name');
   return await typeMapping[type]();
 });
 
-type Options = {
-  input: string;
-  output: string;
-  name: string;
-  mode: Modes;
-};
-
-interface IArchverMethod {
-  (input: string, output: string, name: string): Promise<string>;
-}
-
 const pack: IArchverMethod = (input, output, name) => Archiver.pack(input, output, { name });
 const unpack: IArchverMethod = (input, output, name) => Archiver.unpack(input, output, { name });
-
-type AppModeMapping = Record<string, Function>;
 
 const appModeMapping: AppModeMapping = {
   [Modes.packDir]: pack,
@@ -84,7 +88,7 @@ const appModeMapping: AppModeMapping = {
   [Modes.unpack]: unpack,
 };
 
-ipcMain.on('run', async (_, { input, output, name, mode }: Options) => {
+ipcMain.on('run', async (_, { input, output, name, mode }: IOptions) => {
   try {
     const result = await appModeMapping[mode](input, output, name);
     return result;
