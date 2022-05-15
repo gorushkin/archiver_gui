@@ -29,17 +29,25 @@ interface ProviderProps {
 }
 
 const initState: IState = {
-  input: '',
-  output: '',
-  name: '',
+  input: '/home/gorushkin/Webdev/archiver_gui/temp/target.txt',
+  output: '/home/gorushkin/Webdev/archiver_gui/temp/output',
+  name: 'qwe.zip',
   page: Pages.tablePage,
   mode: Modes.packFile,
+};
+
+const initState2: IState = {
+  input: '/home/gorushkin/Webdev/archiver_gui/temp/output/target.zip',
+  output: '/home/gorushkin/Webdev/archiver_gui/temp/output',
+  name: 'qwe',
+  page: Pages.tablePage,
+  mode: Modes.unpack,
 };
 
 export const StateContext = createContext<GlobalState>({ state: null, setState: null });
 
 const StateProvider: FC<ProviderProps> = ({ children }) => {
-  const [state, setState] = useState<IState>(initState);
+  const [state, setState] = useState<IState>(initState2);
 
   return <StateContext.Provider value={{ state, setState }}>{children}</StateContext.Provider>;
 };

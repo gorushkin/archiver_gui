@@ -29,7 +29,7 @@ interface IOptions {
 type TypeMapping = Record<Operations, Function>;
 
 interface IArchverMethod {
-  (input: string, output: string, name: string): Promise<string>;
+  (input: string, output: string, name: string): void;
 }
 
 type AppModeMapping = Record<Modes, Function>;
@@ -75,12 +75,19 @@ const typeMapping: TypeMapping = {
 };
 
 ipcMain.handle('btn_click', async (_, type: Operations) => {
-  if (!typeMapping[type]) throw new Error('There is no action with $type} name');
+  // if (!typeMapping[type]) throw new Error('There is no action with $type} name');
   return await typeMapping[type]();
 });
 
-const pack: IArchverMethod = (input, output, name) => Archiver.pack(input, output, { name });
-const unpack: IArchverMethod = (input, output, name) => Archiver.unpack(input, output, { name });
+// const pack: IArchverMethod = (input, output, name) => Archiver.pack(input, output, { name });
+const pack: IArchverMethod = (input, output, name) => {
+  Archiver.pack(input, output, name);
+};
+// const unpack: IArchverMethod = (input, output, name) => Archiver.unpack(input, output, { name });
+const unpack: IArchverMethod = (input, output, name) => {
+  Archiver.unpack(input, output, name);
+  console.log('unpack');
+};
 
 const appModeMapping: AppModeMapping = {
   [Modes.packDir]: pack,
